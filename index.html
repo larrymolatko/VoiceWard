@@ -1,471 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoiceWard</title>
 
-    <title>VoiceWard</title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #080914;
+    color: white;
+    text-align: center;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0f0f14;
-            color: white;
-        }
+header {
+    padding: 30px 20px;
+}
 
-        header {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid #292933;
-        }
+.logo {
+    font-size: 32px;
+    font-weight: bold;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 32px;
-        }
+.hero {
+    padding: 50px 20px;
+}
 
-        header p {
-            color: #aaa;
-            margin-top: 8px;
-        }
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 30px 20px;
-        }
+.hero p {
+    color: #b7b9c9;
+    font-size: 18px;
+}
 
-        .hero {
-            text-align: center;
-            margin-bottom: 35px;
-        }
+.record-box {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 35px 20px;
+    background: #121426;
+    border-radius: 20px;
+}
 
-        .hero h2 {
-            font-size: 38px;
-            margin-bottom: 10px;
-        }
+button {
+    border: none;
+    border-radius: 12px;
+    padding: 15px 25px;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 8px;
+}
 
-        .hero p {
-            color: #aaa;
-            font-size: 17px;
-        }
+button:hover {
+    opacity: 0.85;
+}
 
-        .pipeline {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 35px;
-        }
+#recordBtn {
+    background: #6c5ce7;
+    color: white;
+}
 
-        .card {
-            background: #181820;
-            border: 1px solid #292933;
-            border-radius: 16px;
-            padding: 22px;
-        }
+#stopBtn {
+    background: #e74c3c;
+    color: white;
+    display: none;
+}
 
-        .card h3 {
-            margin-top: 0;
-        }
+#resetBtn {
+    background: #343653;
+    color: white;
+    display: none;
+}
 
-        .card p {
-            color: #aaa;
-            line-height: 1.5;
-        }
+#status {
+    margin: 20px;
+    color: #aaa;
+}
 
-        .record-section {
-            background: #181820;
-            border: 1px solid #292933;
-            border-radius: 20px;
-            padding: 30px 20px;
-            text-align: center;
-        }
+#recordingIndicator {
+    display: none;
+    width: 12px;
+    height: 12px;
+    margin: 15px auto;
+    background: #e74c3c;
+    border-radius: 50%;
+    animation: pulse 1s infinite;
+}
 
-        .record-section h2 {
-            margin-top: 0;
-        }
+audio {
+    width: 100%;
+    margin-top: 20px;
+    display: none;
+}
 
-        #status {
-            color: #aaa;
-            margin: 15px 0 25px;
-        }
+.steps {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 20px;
+}
 
-        button {
-            border: none;
-            border-radius: 12px;
-            padding: 14px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 5px;
-        }
+.step {
+    padding: 18px;
+    margin: 10px;
+    background: #121426;
+    border-radius: 14px;
+}
 
-        #recordBtn {
-            background: #6c4cff;
-            color: white;
-        }
+footer {
+    margin-top: 60px;
+    padding: 30px;
+    color: #777;
+}
 
-        #stopBtn {
-            background: #d93636;
-            color: white;
-            display: none;
-        }
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
 
-        #resetBtn {
-            background: #292933;
-            color: white;
-            display: none;
-        }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
 
-        button:hover {
-            opacity: 0.85;
-        }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
 
-        audio {
-            width: 100%;
-            max-width: 500px;
-            margin-top: 20px;
-            display: none;
-        }
+@media (max-width: 600px) {
 
-        .recording-indicator {
-            display: none;
-            margin: 20px auto;
-            width: 15px;
-            height: 15px;
-            background: #ff3b3b;
-            border-radius: 50%;
-            animation: pulse 1s infinite;
-        }
+    .hero h1 {
+        font-size: 32px;
+    }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
+    .logo {
+        font-size: 28px;
+    }
 
-            50% {
-                transform: scale(1.5);
-                opacity: 0.5;
-            }
+    .hero {
+        padding: 35px 15px;
+    }
 
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+    .record-box {
+        margin: 25px auto;
+    }
 
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-            .pipeline {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h2 {
-                font-size: 30px;
-            }
-
-            header h1 {
-                font-size: 27px;
-            }
-        }
-    </style>
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1>🎙️ VoiceWard</h1>
-    <p>Turn your voice into knowledge.</p>
+
+    <div class="logo">
+        🎙️ VoiceWard
+    </div>
+
 </header>
 
 
-<div class="container">
+<section class="hero">
 
-    <section class="hero">
-        <h2>Learn from your voice.</h2>
-        <p>
-            Record your lecture, transform it into knowledge,
-            and review it smarter.
-        </p>
-    </section>
+    <h1>
+        Turn your voice into knowledge.
+    </h1>
 
-
-    <section class="pipeline">
-
-        <div class="card">
-            <h3>🎙️ Record</h3>
-            <p>
-                Record your lecture directly from your device.
-            </p>
-        </div>
-
-        <div class="card">
-            <h3>📝 Transcript</h3>
-            <p>
-                Convert your recorded lecture into text.
-            </p>
-        </div>
-
-        <div class="card">
-            <h3>🧠 Smart Summary</h3>
-            <p>
-                Turn long lectures into easier-to-understand summaries.
-            </p>
-        </div>
-
-        <div class="card">
-            <h3>❓ Ask the Lecture</h3>
-            <p>
-                Ask questions about what you learned.
-            </p>
-        </div>
-
-        <div class="card">
-            <h3>🧪 Generate Quiz</h3>
-            <p>
-                Generate questions to test your understanding.
-            </p>
-        </div>
-
-        <div class="card">
-            <h3>🔁 Review</h3>
-            <p>
-                Review important knowledge from your lecture.
-            </p>
-        </div>
-
-    </section>
+    <p>
+        Record a lecture and turn it into useful knowledge.
+    </p>
 
 
-    <section class="record-section">
+    <div class="record-box">
 
-        <h2>🎙️ Record Your Lecture</h2>
+        <h2>
+            🎙️ Record Lecture
+        </h2>
 
         <p id="status">
             Ready to record.
         </p>
 
-        <div
-            id="recordingIndicator"
-            class="recording-indicator">
-        </div>
+        <div id="recordingIndicator"></div>
+
 
         <button id="recordBtn">
             🔴 Start Recording
         </button>
 
+
         <button id="stopBtn">
-            ⏹️ Stop Recording
+            ⏹️ Stop
         </button>
+
 
         <button id="resetBtn">
             🔄 Record Again
         </button>
 
-        <br>
 
         <audio
             id="audioPlayer"
             controls>
         </audio>
 
-    </section>
+    </div>
 
-</div>
+</section>
+
+
+<section class="steps">
+
+    <div class="step">
+        🎙️ Record
+    </div>
+
+    <div class="step">
+        📝 Transcript
+    </div>
+
+    <div class="step">
+        🧠 Smart Summary
+    </div>
+
+    <div class="step">
+        ❓ Ask the Lecture
+    </div>
+
+    <div class="step">
+        🧪 Generate Quiz
+    </div>
+
+    <div class="step">
+        🔁 Review
+    </div>
+
+</section>
 
 
 <footer>
-    VoiceWard — Learn smarter from your voice.
+
+    VoiceWard — Free for everyone.
+    <br>
+    Non-profit learning project.
+
 </footer>
 
 
 <script>
 
-    let mediaRecorder;
-    let audioChunks = [];
-    let currentStream = null;
-
-    const recordBtn =
-        document.getElementById("recordBtn");
-
-    const stopBtn =
-        document.getElementById("stopBtn");
-
-    const resetBtn =
-        document.getElementById("resetBtn");
-
-    const status =
-        document.getElementById("status");
-
-    const audioPlayer =
-        document.getElementById("audioPlayer");
-
-    const recordingIndicator =
-        document.getElementById("recordingIndicator");
+let mediaRecorder = null;
+let audioChunks = [];
+let currentStream = null;
 
 
-    // START RECORDING
-    recordBtn.addEventListener("click", async () => {
+const recordBtn =
+    document.getElementById("recordBtn");
 
-        try {
+const stopBtn =
+    document.getElementById("stopBtn");
 
-            currentStream =
-                await navigator.mediaDevices.getUserMedia({
-                    audio: true
-                });
+const resetBtn =
+    document.getElementById("resetBtn");
 
-            mediaRecorder =
-                new MediaRecorder(currentStream);
+const status =
+    document.getElementById("status");
 
-            audioChunks = [];
+const audioPlayer =
+    document.getElementById("audioPlayer");
 
-
-            mediaRecorder.ondataavailable =
-                (event) => {
-
-                    if (event.data.size > 0) {
-                        audioChunks.push(event.data);
-                    }
-
-                };
+const recordingIndicator =
+    document.getElementById("recordingIndicator");
 
 
-            mediaRecorder.onstop = () => {
 
-                const audioBlob =
-                    new Blob(
-                        audioChunks,
-                        {
-                            type: "audio/webm"
-                        }
-                    );
+recordBtn.addEventListener("click", async () => {
 
+    try {
 
-                const audioURL =
-                    URL.createObjectURL(audioBlob);
+        currentStream =
+            await navigator.mediaDevices.getUserMedia({
+                audio: true
+            });
 
 
-                audioPlayer.src = audioURL;
-
-                audioPlayer.style.display =
-                    "block";
+        mediaRecorder =
+            new MediaRecorder(currentStream);
 
 
-                status.textContent =
-                    "✅ Recording complete. You can listen to it below.";
+        audioChunks = [];
 
 
-                resetBtn.style.display =
-                    "inline-block";
+        mediaRecorder.ondataavailable =
+            (event) => {
 
-
-                recordingIndicator.style.display =
-                    "none";
-
-
-                if (currentStream) {
-
-                    currentStream
-                        .getTracks()
-                        .forEach(track => track.stop());
-
+                if (event.data.size > 0) {
+                    audioChunks.push(event.data);
                 }
 
             };
 
 
-            mediaRecorder.start();
+        mediaRecorder.onstop = () => {
+
+            const audioBlob =
+                new Blob(
+                    audioChunks,
+                    {
+                        type: "audio/webm"
+                    }
+                );
 
 
-            recordBtn.style.display =
-                "none";
-
-            stopBtn.style.display =
-                "inline-block";
-
-            resetBtn.style.display =
-                "none";
+            const audioURL =
+                URL.createObjectURL(audioBlob);
 
 
-            recordingIndicator.style.display =
+            audioPlayer.src = audioURL;
+
+            audioPlayer.style.display =
                 "block";
 
 
             status.textContent =
-                "🔴 Recording...";
+                "✅ Recording complete.";
 
 
-        } catch (error) {
-
-            console.error(error);
-
-            status.textContent =
-                "❌ Microphone permission was denied or unavailable.";
-
-        }
-
-    });
+            resetBtn.style.display =
+                "inline-block";
 
 
-    // STOP RECORDING
-    stopBtn.addEventListener("click", () => {
-
-        if (
-            mediaRecorder &&
-            mediaRecorder.state !== "inactive"
-        ) {
-
-            mediaRecorder.stop();
-
-        }
+            recordingIndicator.style.display =
+                "none";
 
 
-        stopBtn.style.display =
-            "none";
+            if (currentStream) {
+
+                currentStream
+                    .getTracks()
+                    .forEach(track => track.stop());
+
+                currentStream = null;
+
+            }
+
+        };
+
+
+        mediaRecorder.start();
+
 
         recordBtn.style.display =
             "none";
 
-        recordingIndicator.style.display =
-            "none";
-
-    });
-
-
-    // RECORD AGAIN
-    resetBtn.addEventListener("click", () => {
-
-        audioPlayer.pause();
-
-        audioPlayer.src = "";
-
-        audioPlayer.style.display =
-            "none";
-
+        stopBtn.style.display =
+            "inline-block";
 
         resetBtn.style.display =
             "none";
 
-        recordBtn.style.display =
-            "inline-block";
+
+        recordingIndicator.style.display =
+            "block";
 
 
         status.textContent =
-            "Ready to record again.";
+            "🔴 Recording...";
 
-    });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "❌ Microphone permission was denied.";
+
+    }
+
+});
+
+
+
+stopBtn.addEventListener("click", () => {
+
+    if (
+        mediaRecorder &&
+        mediaRecorder.state !== "inactive"
+    ) {
+
+        mediaRecorder.stop();
+
+    }
+
+
+    stopBtn.style.display =
+        "none";
+
+});
+
+
+
+resetBtn.addEventListener("click", () => {
+
+    audioPlayer.pause();
+
+    audioPlayer.src = "";
+
+    audioPlayer.style.display =
+        "none";
+
+
+    resetBtn.style.display =
+        "none";
+
+
+    recordBtn.style.display =
+        "inline-block";
+
+
+    status.textContent =
+        "Ready to record again.";
+
+});
 
 </script>
 
