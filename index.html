@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VoiceWard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #080914;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 20px;
+            border-bottom: 1px solid #25263a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: radial-gradient(
+                circle at center,
+                #29285f,
+                #080914 65%
+            );
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 14px;
+            border: 1px solid #6361c9;
+            border-radius: 30px;
+            color: #aaaaff;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 52px;
+            line-height: 1.05;
+            margin-bottom: 25px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: auto;
+            color: #a7a8b8;
+            font-size: 17px;
+        }
+
+        .start {
+            margin-top: 30px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            background: #6966ff;
+            color: white;
+            font-size: 16px;
+        }
+
+        .pipeline {
+            padding: 60px 20px;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .pipeline h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            background: #111322;
+            border: 1px solid #292c42;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 12px;
+        }
+
+        .step strong {
+            font-size: 18px;
+        }
+
+        .step p {
+            color: #9294a5;
+            margin-top: 5px;
+        }
+
+        .record {
+            margin: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #111322;
+            border: 1px solid #292c42;
+            border-radius: 20px;
+        }
+
+        .mic {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .record h2 {
+            margin-bottom: 10px;
+        }
+
+        .record p {
+            color: #999bab;
+            margin-bottom: 25px;
+        }
+
+        .record button {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 12px;
+            background: #e34b5f;
+            color: white;
+            font-size: 16px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #707282;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🎙️ VoiceWard</div>
+        <nav>AI Learning Assistant</nav>
+    </header>
+
+    <section class="hero">
+
+        <div class="badge">
+            AI Learning Assistant
+        </div>
+
+        <h1>
+            Turn your voice<br>
+            into knowledge.
+        </h1>
+
+        <p>
+            Record your lecture, understand what was said,
+            and turn your lessons into something you can review.
+        </p>
+
+        <button class="start">
+            🎙️ Start Recording
+        </button>
+
+    </section>
+
+    <section class="pipeline">
+
+        <h2>From Lecture to Knowledge</h2>
+
+        <div class="step">
+            <strong>🎙️ Record</strong>
+            <p>Capture your lecture.</p>
+        </div>
+
+        <div class="step">
+            <strong>📝 Transcript</strong>
+            <p>Convert speech into text.</p>
+        </div>
+
+        <div class="step">
+            <strong>🧠 Smart Summary</strong>
+            <p>Understand the important points.</p>
+        </div>
+
+        <div class="step">
+            <strong>❓ Ask the Lecture</strong>
+            <p>Ask questions about your lesson.</p>
+        </div>
+
+        <div class="step">
+            <strong>🧪 Generate Quiz</strong>
+            <p>Test what you learned.</p>
+        </div>
+
+        <div class="step">
+            <strong>🔁 Review</strong>
+            <p>Review your knowledge.</p>
+        </div>
+
+    </section>
+
+    <section class="record">
+
+        <div class="mic">🎙️</div>
+
+        <h2>Ready to learn?</h2>
+
+        <p>
+            Your lecture → Your knowledge.
+        </p>
+
+        <button>
+            🔴 Record Lecture
+        </button>
+
+    </section>
+
+    <footer>
+        VoiceWard — Free learning technology for everyone.
+        <br>
+        Non-profit project.
+    </footer>
+
+</body>
+  </html>
