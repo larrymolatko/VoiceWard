@@ -1,440 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VoiceWard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <title>VoiceWard</title>
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #080914;
-    color: white;
-    text-align: center;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-header {
-    padding: 30px 20px;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background: #080914;
+            color: white;
+            min-height: 100vh;
+        }
 
-.logo {
-    font-size: 32px;
-    font-weight: bold;
-}
+        header {
+            padding: 20px;
+            border-bottom: 1px solid #25263a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.hero {
-    padding: 50px 20px;
-}
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
 
-.hero h1 {
-    font-size: 42px;
-    margin-bottom: 15px;
-}
+        nav {
+            color: #999;
+            font-size: 14px;
+        }
 
-.hero p {
-    color: #b7b9c9;
-    font-size: 18px;
-}
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: radial-gradient(
+                circle at center,
+                #29285f,
+                #080914 65%
+            );
+        }
 
-.record-box {
-    max-width: 600px;
-    margin: 30px auto;
-    padding: 35px 20px;
-    background: #121426;
-    border-radius: 20px;
-}
+        .badge {
+            display: inline-block;
+            padding: 8px 14px;
+            border: 1px solid #6361c9;
+            border-radius: 30px;
+            color: #aaaaff;
+            margin-bottom: 25px;
+        }
 
-button {
-    border: none;
-    border-radius: 12px;
-    padding: 15px 25px;
-    font-size: 17px;
-    cursor: pointer;
-    margin: 8px;
-}
+        h1 {
+            font-size: 52px;
+            line-height: 1.05;
+            margin-bottom: 25px;
+        }
 
-button:hover {
-    opacity: 0.85;
-}
+        .hero p {
+            max-width: 600px;
+            margin: auto;
+            color: #a7a8b8;
+            font-size: 17px;
+        }
 
-#recordBtn {
-    background: #6c5ce7;
-    color: white;
-}
+        .start {
+            margin-top: 30px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            background: #6966ff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-#stopBtn {
-    background: #e74c3c;
-    color: white;
-    display: none;
-}
+        .pipeline {
+            padding: 60px 20px;
+            max-width: 700px;
+            margin: auto;
+        }
 
-#resetBtn {
-    background: #343653;
-    color: white;
-    display: none;
-}
+        .pipeline h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-#status {
-    margin: 20px;
-    color: #aaa;
-}
+        .step {
+            background: #111322;
+            border: 1px solid #292c42;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 12px;
+        }
 
-#recordingIndicator {
-    display: none;
-    width: 12px;
-    height: 12px;
-    margin: 15px auto;
-    background: #e74c3c;
-    border-radius: 50%;
-    animation: pulse 1s infinite;
-}
+        .step strong {
+            font-size: 18px;
+        }
 
-audio {
-    width: 100%;
-    margin-top: 20px;
-    display: none;
-}
+        .step p {
+            color: #9294a5;
+            margin-top: 5px;
+        }
 
-.steps {
-    max-width: 700px;
-    margin: 50px auto;
-    padding: 20px;
-}
+        .record {
+            margin: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #111322;
+            border: 1px solid #292c42;
+            border-radius: 20px;
+        }
 
-.step {
-    padding: 18px;
-    margin: 10px;
-    background: #121426;
-    border-radius: 14px;
-}
+        .mic {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
 
-footer {
-    margin-top: 60px;
-    padding: 30px;
-    color: #777;
-}
+        .record h2 {
+            margin-bottom: 10px;
+        }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
+        .record p {
+            color: #999bab;
+            margin-bottom: 25px;
+        }
 
-    50% {
-        transform: scale(1.5);
-        opacity: 0.5;
-    }
+        .record button,
+        #stopBtn,
+        #resetBtn {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
+        .record button {
+            background: #e34b5f;
+        }
 
-@media (max-width: 600px) {
+        #stopBtn {
+            background: #e34b5f;
+            display: none;
+        }
 
-    .hero h1 {
-        font-size: 32px;
-    }
+        #resetBtn {
+            background: #343653;
+            display: none;
+        }
 
-    .logo {
-        font-size: 28px;
-    }
+        #status {
+            margin-top: 20px;
+            color: #999bab;
+        }
 
-    .hero {
-        padding: 35px 15px;
-    }
+        #recordingIndicator {
+            display: none;
+            width: 12px;
+            height: 12px;
+            margin: 15px auto;
+            background: #e34b5f;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
 
-    .record-box {
-        margin: 25px auto;
-    }
+        #audioPlayer {
+            width: 100%;
+            margin-top: 25px;
+            display: none;
+        }
 
-}
-</style>
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #707282;
+            font-size: 13px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 38px;
+            }
+
+            .hero {
+                padding: 60px 20px 45px;
+            }
+
+            nav {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
+    <header>
+        <div class="logo">🎙️ VoiceWard</div>
+        <nav>AI Learning Assistant</nav>
+    </header>
 
-    <div class="logo">
-        🎙️ VoiceWard
-    </div>
+    <section class="hero">
 
-</header>
+        <div class="badge">
+            AI Learning Assistant
+        </div>
+
+        <h1>
+            Turn your voice<br>
+            into knowledge.
+        </h1>
+
+        <p>
+            Record your lecture, understand what was said,
+            and turn your lessons into something you can review.
+        </p>
+
+        <button class="start" id="heroRecordBtn">
+            🎙️ Start Recording
+        </button>
+
+    </section>
 
 
-<section class="hero">
+    <section class="pipeline">
 
-    <h1>
-        Turn your voice into knowledge.
-    </h1>
+        <h2>From Lecture to Knowledge</h2>
 
-    <p>
-        Record a lecture and turn it into useful knowledge.
-    </p>
+        <div class="step">
+            <strong>🎙️ Record</strong>
+            <p>Capture your lecture.</p>
+        </div>
+
+        <div class="step">
+            <strong>📝 Transcript</strong>
+            <p>Convert speech into text.</p>
+        </div>
+
+        <div class="step">
+            <strong>🧠 Smart Summary</strong>
+            <p>Understand the important points.</p>
+        </div>
+
+        <div class="step">
+            <strong>❓ Ask the Lecture</strong>
+            <p>Ask questions about your lesson.</p>
+        </div>
+
+        <div class="step">
+            <strong>🧪 Generate Quiz</strong>
+            <p>Test what you learned.</p>
+        </div>
+
+        <div class="step">
+            <strong>🔁 Review</strong>
+            <p>Review your knowledge.</p>
+        </div>
+
+    </section>
 
 
-    <div class="record-box">
+    <section class="record">
 
-        <h2>
-            🎙️ Record Lecture
-        </h2>
+        <div class="mic">🎙️</div>
+
+        <h2>Ready to learn?</h2>
 
         <p id="status">
-            Ready to record.
+            Your lecture → Your knowledge.
         </p>
 
         <div id="recordingIndicator"></div>
 
-
         <button id="recordBtn">
-            🔴 Start Recording
+            🔴 Record Lecture
         </button>
-
 
         <button id="stopBtn">
-            ⏹️ Stop
+            ⏹️ Stop Recording
         </button>
-
 
         <button id="resetBtn">
             🔄 Record Again
         </button>
 
+        <audio id="audioPlayer" controls></audio>
 
-        <audio
-            id="audioPlayer"
-            controls>
-        </audio>
-
-    </div>
-
-</section>
+    </section>
 
 
-<section class="steps">
-
-    <div class="step">
-        🎙️ Record
-    </div>
-
-    <div class="step">
-        📝 Transcript
-    </div>
-
-    <div class="step">
-        🧠 Smart Summary
-    </div>
-
-    <div class="step">
-        ❓ Ask the Lecture
-    </div>
-
-    <div class="step">
-        🧪 Generate Quiz
-    </div>
-
-    <div class="step">
-        🔁 Review
-    </div>
-
-</section>
+    <footer>
+        VoiceWard — Free learning technology for everyone.
+        <br>
+        Non-profit project.
+    </footer>
 
 
-<footer>
+    <script>
 
-    VoiceWard — Free for everyone.
-    <br>
-    Non-profit learning project.
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let currentStream = null;
 
-</footer>
+        const heroRecordBtn =
+            document.getElementById("heroRecordBtn");
 
+        const recordBtn =
+            document.getElementById("recordBtn");
 
-<script>
+        const stopBtn =
+            document.getElementById("stopBtn");
 
-let mediaRecorder = null;
-let audioChunks = [];
-let currentStream = null;
+        const resetBtn =
+            document.getElementById("resetBtn");
 
+        const status =
+            document.getElementById("status");
 
-const recordBtn =
-    document.getElementById("recordBtn");
+        const audioPlayer =
+            document.getElementById("audioPlayer");
 
-const stopBtn =
-    document.getElementById("stopBtn");
-
-const resetBtn =
-    document.getElementById("resetBtn");
-
-const status =
-    document.getElementById("status");
-
-const audioPlayer =
-    document.getElementById("audioPlayer");
-
-const recordingIndicator =
-    document.getElementById("recordingIndicator");
+        const recordingIndicator =
+            document.getElementById("recordingIndicator");
 
 
+        async function startRecording() {
 
-recordBtn.addEventListener("click", async () => {
+            try {
 
-    try {
+                currentStream =
+                    await navigator.mediaDevices.getUserMedia({
+                        audio: true
+                    });
 
-        currentStream =
-            await navigator.mediaDevices.getUserMedia({
-                audio: true
-            });
+                mediaRecorder =
+                    new MediaRecorder(currentStream);
 
-
-        mediaRecorder =
-            new MediaRecorder(currentStream);
-
-
-        audioChunks = [];
+                audioChunks = [];
 
 
-        mediaRecorder.ondataavailable =
-            (event) => {
+                mediaRecorder.ondataavailable =
+                    (event) => {
 
-                if (event.data.size > 0) {
-                    audioChunks.push(event.data);
-                }
+                        if (event.data.size > 0) {
+                            audioChunks.push(event.data);
+                        }
 
-            };
+                    };
 
 
-        mediaRecorder.onstop = () => {
+                mediaRecorder.onstop = () => {
 
-            const audioBlob =
-                new Blob(
-                    audioChunks,
-                    {
-                        type: "audio/webm"
+                    const audioBlob =
+                        new Blob(
+                            audioChunks,
+                            {
+                                type: "audio/webm"
+                            }
+                        );
+
+                    const audioURL =
+                        URL.createObjectURL(audioBlob);
+
+                    audioPlayer.src = audioURL;
+
+                    audioPlayer.style.display =
+                        "block";
+
+                    status.textContent =
+                        "✅ Recording complete.";
+
+                    resetBtn.style.display =
+                        "inline-block";
+
+                    recordingIndicator.style.display =
+                        "none";
+
+
+                    if (currentStream) {
+
+                        currentStream
+                            .getTracks()
+                            .forEach(track => track.stop());
+
+                        currentStream = null;
+
                     }
-                );
+
+                };
 
 
-            const audioURL =
-                URL.createObjectURL(audioBlob);
+                mediaRecorder.start();
 
 
-            audioPlayer.src = audioURL;
+                recordBtn.style.display =
+                    "none";
 
-            audioPlayer.style.display =
-                "block";
+                stopBtn.style.display =
+                    "inline-block";
 
+                resetBtn.style.display =
+                    "none";
 
-            status.textContent =
-                "✅ Recording complete.";
+                heroRecordBtn.style.display =
+                    "none";
 
+                recordingIndicator.style.display =
+                    "block";
 
-            resetBtn.style.display =
-                "inline-block";
-
-
-            recordingIndicator.style.display =
-                "none";
-
-
-            if (currentStream) {
-
-                currentStream
-                    .getTracks()
-                    .forEach(track => track.stop());
-
-                currentStream = null;
+                status.textContent =
+                    "🔴 Recording...";
 
             }
 
-        };
+            catch (error) {
+
+                console.error(error);
+
+                status.textContent =
+                    "❌ Microphone permission was denied.";
+
+            }
+
+        }
 
 
-        mediaRecorder.start();
+        recordBtn.addEventListener(
+            "click",
+            startRecording
+        );
 
 
-        recordBtn.style.display =
-            "none";
+        heroRecordBtn.addEventListener(
+            "click",
+            () => {
 
-        stopBtn.style.display =
-            "inline-block";
+                document
+                    .querySelector(".record")
+                    .scrollIntoView({
+                        behavior: "smooth"
+                    });
 
-        resetBtn.style.display =
-            "none";
+                setTimeout(
+                    startRecording,
+                    500
+                );
 
-
-        recordingIndicator.style.display =
-            "block";
-
-
-        status.textContent =
-            "🔴 Recording...";
-
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        status.textContent =
-            "❌ Microphone permission was denied.";
-
-    }
-
-});
+            }
+        );
 
 
+        stopBtn.addEventListener(
+            "click",
+            () => {
 
-stopBtn.addEventListener("click", () => {
+                if (
+                    mediaRecorder &&
+                    mediaRecorder.state !== "inactive"
+                ) {
 
-    if (
-        mediaRecorder &&
-        mediaRecorder.state !== "inactive"
-    ) {
+                    mediaRecorder.stop();
 
-        mediaRecorder.stop();
+                }
 
-    }
+                stopBtn.style.display =
+                    "none";
 
+                heroRecordBtn.style.display =
+                    "inline-block";
 
-    stopBtn.style.display =
-        "none";
-
-});
-
-
-
-resetBtn.addEventListener("click", () => {
-
-    audioPlayer.pause();
-
-    audioPlayer.src = "";
-
-    audioPlayer.style.display =
-        "none";
+            }
+        );
 
 
-    resetBtn.style.display =
-        "none";
+        resetBtn.addEventListener(
+            "click",
+            () => {
 
+                audioPlayer.pause();
 
-    recordBtn.style.display =
-        "inline-block";
+                audioPlayer.src = "";
 
+                audioPlayer.style.display =
+                    "none";
 
-    status.textContent =
-        "Ready to record again.";
+                resetBtn.style.display =
+                    "none";
 
-});
+                recordBtn.style.display =
+                    "inline-block";
 
-</script>
+                heroRecordBtn.style.display =
+                    "inline-block";
+
+                status.textContent =
+                    "Ready to record again.";
+
+            }
+        );
+
+    </script>
 
 </body>
 </html>
