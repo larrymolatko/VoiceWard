@@ -9,233 +9,465 @@
     <style>
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            background: #080914;
+            background: #0f0f14;
             color: white;
-            min-height: 100vh;
         }
 
         header {
-            padding: 20px;
-            border-bottom: 1px solid #25263a;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid #292933;
         }
 
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
+        header h1 {
+            margin: 0;
+            font-size: 32px;
         }
 
-        nav {
-            color: #999;
-            font-size: 14px;
+        header p {
+            color: #aaa;
+            margin-top: 8px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 30px 20px;
         }
 
         .hero {
             text-align: center;
-            padding: 80px 20px 60px;
-            background: radial-gradient(
-                circle at center,
-                #29285f,
-                #080914 65%
-            );
+            margin-bottom: 35px;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 8px 14px;
-            border: 1px solid #6361c9;
-            border-radius: 30px;
-            color: #aaaaff;
-            margin-bottom: 25px;
-        }
-
-        h1 {
-            font-size: 52px;
-            line-height: 1.05;
-            margin-bottom: 25px;
-        }
-
-        .hero p {
-            max-width: 600px;
-            margin: auto;
-            color: #a7a8b8;
-            font-size: 17px;
-        }
-
-        .start {
-            margin-top: 30px;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 12px;
-            background: #6966ff;
-            color: white;
-            font-size: 16px;
-        }
-
-        .pipeline {
-            padding: 60px 20px;
-            max-width: 700px;
-            margin: auto;
-        }
-
-        .pipeline h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .step {
-            background: #111322;
-            border: 1px solid #292c42;
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 12px;
-        }
-
-        .step strong {
-            font-size: 18px;
-        }
-
-        .step p {
-            color: #9294a5;
-            margin-top: 5px;
-        }
-
-        .record {
-            margin: 20px;
-            padding: 40px 20px;
-            text-align: center;
-            background: #111322;
-            border: 1px solid #292c42;
-            border-radius: 20px;
-        }
-
-        .mic {
-            font-size: 55px;
-            margin-bottom: 15px;
-        }
-
-        .record h2 {
+        .hero h2 {
+            font-size: 38px;
             margin-bottom: 10px;
         }
 
-        .record p {
-            color: #999bab;
-            margin-bottom: 25px;
+        .hero p {
+            color: #aaa;
+            font-size: 17px;
         }
 
-        .record button {
-            padding: 14px 25px;
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background: #181820;
+            border: 1px solid #292933;
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .card p {
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        .record-section {
+            background: #181820;
+            border: 1px solid #292933;
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .record-section h2 {
+            margin-top: 0;
+        }
+
+        #status {
+            color: #aaa;
+            margin: 15px 0 25px;
+        }
+
+        button {
             border: none;
             border-radius: 12px;
-            background: #e34b5f;
-            color: white;
+            padding: 14px 24px;
             font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        #recordBtn {
+            background: #6c4cff;
+            color: white;
+        }
+
+        #stopBtn {
+            background: #d93636;
+            color: white;
+            display: none;
+        }
+
+        #resetBtn {
+            background: #292933;
+            color: white;
+            display: none;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .recording-indicator {
+            display: none;
+            margin: 20px auto;
+            width: 15px;
+            height: 15px;
+            background: #ff3b3b;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         footer {
             text-align: center;
-            padding: 40px 20px;
-            color: #707282;
-            font-size: 13px;
+            padding: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .pipeline {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 30px;
+            }
+
+            header h1 {
+                font-size: 27px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <div class="logo">🎙️ VoiceWard</div>
-        <nav>AI Learning Assistant</nav>
-    </header>
+<header>
+    <h1>🎙️ VoiceWard</h1>
+    <p>Turn your voice into knowledge.</p>
+</header>
+
+
+<div class="container">
 
     <section class="hero">
-
-        <div class="badge">
-            AI Learning Assistant
-        </div>
-
-        <h1>
-            Turn your voice<br>
-            into knowledge.
-        </h1>
-
+        <h2>Learn from your voice.</h2>
         <p>
-            Record your lecture, understand what was said,
-            and turn your lessons into something you can review.
+            Record your lecture, transform it into knowledge,
+            and review it smarter.
         </p>
-
-        <button class="start">
-            🎙️ Start Recording
-        </button>
-
     </section>
+
 
     <section class="pipeline">
 
-        <h2>From Lecture to Knowledge</h2>
-
-        <div class="step">
-            <strong>🎙️ Record</strong>
-            <p>Capture your lecture.</p>
+        <div class="card">
+            <h3>🎙️ Record</h3>
+            <p>
+                Record your lecture directly from your device.
+            </p>
         </div>
 
-        <div class="step">
-            <strong>📝 Transcript</strong>
-            <p>Convert speech into text.</p>
+        <div class="card">
+            <h3>📝 Transcript</h3>
+            <p>
+                Convert your recorded lecture into text.
+            </p>
         </div>
 
-        <div class="step">
-            <strong>🧠 Smart Summary</strong>
-            <p>Understand the important points.</p>
+        <div class="card">
+            <h3>🧠 Smart Summary</h3>
+            <p>
+                Turn long lectures into easier-to-understand summaries.
+            </p>
         </div>
 
-        <div class="step">
-            <strong>❓ Ask the Lecture</strong>
-            <p>Ask questions about your lesson.</p>
+        <div class="card">
+            <h3>❓ Ask the Lecture</h3>
+            <p>
+                Ask questions about what you learned.
+            </p>
         </div>
 
-        <div class="step">
-            <strong>🧪 Generate Quiz</strong>
-            <p>Test what you learned.</p>
+        <div class="card">
+            <h3>🧪 Generate Quiz</h3>
+            <p>
+                Generate questions to test your understanding.
+            </p>
         </div>
 
-        <div class="step">
-            <strong>🔁 Review</strong>
-            <p>Review your knowledge.</p>
+        <div class="card">
+            <h3>🔁 Review</h3>
+            <p>
+                Review important knowledge from your lecture.
+            </p>
         </div>
 
     </section>
 
-    <section class="record">
 
-        <div class="mic">🎙️</div>
+    <section class="record-section">
 
-        <h2>Ready to learn?</h2>
+        <h2>🎙️ Record Your Lecture</h2>
 
-        <p>
-            Your lecture → Your knowledge.
+        <p id="status">
+            Ready to record.
         </p>
 
-        <button>
-            🔴 Record Lecture
+        <div
+            id="recordingIndicator"
+            class="recording-indicator">
+        </div>
+
+        <button id="recordBtn">
+            🔴 Start Recording
         </button>
+
+        <button id="stopBtn">
+            ⏹️ Stop Recording
+        </button>
+
+        <button id="resetBtn">
+            🔄 Record Again
+        </button>
+
+        <br>
+
+        <audio
+            id="audioPlayer"
+            controls>
+        </audio>
 
     </section>
 
-    <footer>
-        VoiceWard — Free learning technology for everyone.
-        <br>
-        Non-profit project.
-    </footer>
+</div>
+
+
+<footer>
+    VoiceWard — Learn smarter from your voice.
+</footer>
+
+
+<script>
+
+    let mediaRecorder;
+    let audioChunks = [];
+    let currentStream = null;
+
+    const recordBtn =
+        document.getElementById("recordBtn");
+
+    const stopBtn =
+        document.getElementById("stopBtn");
+
+    const resetBtn =
+        document.getElementById("resetBtn");
+
+    const status =
+        document.getElementById("status");
+
+    const audioPlayer =
+        document.getElementById("audioPlayer");
+
+    const recordingIndicator =
+        document.getElementById("recordingIndicator");
+
+
+    // START RECORDING
+    recordBtn.addEventListener("click", async () => {
+
+        try {
+
+            currentStream =
+                await navigator.mediaDevices.getUserMedia({
+                    audio: true
+                });
+
+            mediaRecorder =
+                new MediaRecorder(currentStream);
+
+            audioChunks = [];
+
+
+            mediaRecorder.ondataavailable =
+                (event) => {
+
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+
+                };
+
+
+            mediaRecorder.onstop = () => {
+
+                const audioBlob =
+                    new Blob(
+                        audioChunks,
+                        {
+                            type: "audio/webm"
+                        }
+                    );
+
+
+                const audioURL =
+                    URL.createObjectURL(audioBlob);
+
+
+                audioPlayer.src = audioURL;
+
+                audioPlayer.style.display =
+                    "block";
+
+
+                status.textContent =
+                    "✅ Recording complete. You can listen to it below.";
+
+
+                resetBtn.style.display =
+                    "inline-block";
+
+
+                recordingIndicator.style.display =
+                    "none";
+
+
+                if (currentStream) {
+
+                    currentStream
+                        .getTracks()
+                        .forEach(track => track.stop());
+
+                }
+
+            };
+
+
+            mediaRecorder.start();
+
+
+            recordBtn.style.display =
+                "none";
+
+            stopBtn.style.display =
+                "inline-block";
+
+            resetBtn.style.display =
+                "none";
+
+
+            recordingIndicator.style.display =
+                "block";
+
+
+            status.textContent =
+                "🔴 Recording...";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            status.textContent =
+                "❌ Microphone permission was denied or unavailable.";
+
+        }
+
+    });
+
+
+    // STOP RECORDING
+    stopBtn.addEventListener("click", () => {
+
+        if (
+            mediaRecorder &&
+            mediaRecorder.state !== "inactive"
+        ) {
+
+            mediaRecorder.stop();
+
+        }
+
+
+        stopBtn.style.display =
+            "none";
+
+        recordBtn.style.display =
+            "none";
+
+        recordingIndicator.style.display =
+            "none";
+
+    });
+
+
+    // RECORD AGAIN
+    resetBtn.addEventListener("click", () => {
+
+        audioPlayer.pause();
+
+        audioPlayer.src = "";
+
+        audioPlayer.style.display =
+            "none";
+
+
+        resetBtn.style.display =
+            "none";
+
+        recordBtn.style.display =
+            "inline-block";
+
+
+        status.textContent =
+            "Ready to record again.";
+
+    });
+
+</script>
 
 </body>
-  </html>
-<!-- VoiceWard homepage -->
+</html>
