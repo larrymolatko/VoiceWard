@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Voice Recorder</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f0f14;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: #181820;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        p {
+            color: #aaa;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 14px 22px;
+            margin: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #recordBtn {
+            background: #6d3df5;
+            color: white;
+        }
+
+        #stopBtn {
+            background: #333;
+            color: white;
+            display: none;
+        }
+
+        #status {
+            margin: 25px 0;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎙️ Voice Recorder</h1>
+
+    <p id="status">Ready to record.</p>
+
+    <button id="recordBtn">
+        🔴 Start Recording
+    </button>
+
+    <button id="stopBtn">
+        ⏹️ Stop Recording
+    </button>
+
+    <audio id="audioPlayer" controls></audio>
+
+</div>
+
+<script>
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    const recordBtn = document.getElementById("recordBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const status = document.getElementById("status");
+    const audioPlayer = document.getElementById("audioPlayer");
+
+    recordBtn.addEventListener("click", async () => {
+
+        try {
+
+            const stream =
+                await navigator.mediaDevices.getUserMedia({
+                    audio: true
+                });
+
+            mediaRecorder = new MediaRecorder(stream);
+
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = (event) => {
+                audioChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = () => {
+
+                const audioBlob = new Blob(
+                    audioChunks,
+                    { type: "audio/webm" }
+                );
+
+                const audioURL =
+                    URL.createObjectURL(audioBlob);
+
+                audioPlayer.src = audioURL;
+                audioPlayer.style.display = "block";
+
+                status.textContent =
+                    "Recording complete.";
+
+                stream.getTracks().forEach(track => {
+                    track.stop();
+                });
+            };
+
+            mediaRecorder.start();
+
+            recordBtn.style.display = "none";
+            stopBtn.style.display = "inline-block";
+
+            status.textContent =
+                "🔴 Recording...";
+
+        } catch (error) {
+
+            console.error(error);
+
+            status.textContent =
+                "Microphone permission was denied.";
+
+        }
+
+    });
+
+    stopBtn.addEventListener("click", () => {
+
+        if (mediaRecorder) {
+            mediaRecorder.stop();
+        }
+
+        recordBtn.style.display = "inline-block";
+        stopBtn.style.display = "none";
+
+    });
+
+</script>
+
+</body>
+  </html>
