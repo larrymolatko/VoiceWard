@@ -440,6 +440,16 @@ if (SpeechRecognition) {
 
     recognition.onerror = (event) => {
 
+    console.error(
+        "Speech recognition error:",
+        event.error
+    );
+
+    transcript.textContent =
+        "❌ Speech recognition error: " + event.error;
+
+};
+
         console.error(
             "Speech recognition error:",
             event.error
