@@ -1,2 +1,2 @@
-# VoiceWard
-VoiceWard — Turn your voice into knowledge.
+# LectureFlow
+LectureFlow — Turn your voice into knowledge.
