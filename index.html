@@ -131,7 +131,24 @@
             color: #999bab;
             margin-bottom: 25px;
         }
+#transcriptBox {
+    margin-top: 30px;
+    padding: 20px;
+    text-align: left;
+    background: #080914;
+    border: 1px solid #292c42;
+    border-radius: 14px;
+}
 
+#transcriptBox h3 {
+    margin-bottom: 12px;
+}
+
+#transcript {
+    color: #a7a8b8;
+    line-height: 1.6;
+    margin: 0;
+}
         .record button,
         #stopBtn,
         #resetBtn {
@@ -290,7 +307,15 @@
         <div class="mic">🎙️</div>
 
         <h2>Ready to learn?</h2>
+<div id="transcriptBox">
 
+    <h3>📝 Transcript</h3>
+
+    <p id="transcript">
+        Your transcript will appear here...
+    </p>
+
+</div>
         <p id="status">
             Your lecture → Your knowledge.
         </p>
@@ -348,7 +373,52 @@
         const recordingIndicator =
             document.getElementById("recordingIndicator");
 
+const transcript =
+    document.getElementById("transcript");
 
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+let recognition = null;
+
+if (SpeechRecognition) {
+
+    recognition = new SpeechRecognition();
+
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+
+    recognition.onresult = (event) => {
+
+        let text = "";
+
+        for (
+            let i = event.resultIndex;
+            i < event.results.length;
+            i++
+        ) {
+
+            text +=
+                event.results[i][0].transcript + " ";
+
+        }
+
+        transcript.textContent = text;
+
+    };
+
+    recognition.onerror = (event) => {
+
+        console.error(
+            "Speech recognition error:",
+            event.error
+        );
+
+    };
+
+        }
         async function startRecording() {
 
             try {
@@ -375,7 +445,9 @@
 
 
                 mediaRecorder.onstop = () => {
-
+if (recognition) {
+    recognition.stop();
+}
                     const audioBlob =
                         new Blob(
                             audioChunks,
@@ -416,8 +488,11 @@
 
 
                 mediaRecorder.start();
-
-
+                if (recognition) {
+    transcript.textContent = "";
+    recognition.start();
+                }
+                
                 recordBtn.style.display =
                     "none";
 
