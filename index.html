@@ -149,6 +149,24 @@
     line-height: 1.6;
     margin: 0;
 }
+.language-selector {
+    margin: 20px 0;
+}
+
+.language-selector h3 {
+    margin-bottom: 10px;
+}
+
+#languageSelect {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #292c42;
+    background: #080914;
+    color: white;
+    font-size: 15px;
+}
         .record button,
         #stopBtn,
         #resetBtn {
@@ -307,6 +325,17 @@
         <div class="mic">🎙️</div>
 
         <h2>Ready to learn?</h2>
+        <div class="language-selector">
+
+    <h3>🌐 Speech Language</h3>
+
+    <select id="languageSelect">
+        <option value="th-TH">🇹🇭 Thai</option>
+        <option value="en-US">🇺🇸 English (US)</option>
+        <option value="en-GB">🇬🇧 English (UK)</option>
+    </select>
+
+        </div>
 <div id="transcriptBox">
 
     <h3>📝 Transcript</h3>
@@ -375,7 +404,8 @@
 
 const transcript =
     document.getElementById("transcript");
-
+const languageSelect =
+    document.getElementById("languageSelect");
 const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
@@ -388,7 +418,6 @@ if (SpeechRecognition) {
 
     recognition.continuous = true;
     recognition.interimResults = true;
-    recognition.lang = "en-US";
 
     recognition.onresult = (event) => {
 
@@ -490,6 +519,10 @@ if (recognition) {
                 mediaRecorder.start();
                 if (recognition) {
     transcript.textContent = "";
+
+    recognition.lang =
+        languageSelect.value;
+
     recognition.start();
                 }
                 
