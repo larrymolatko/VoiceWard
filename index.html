@@ -434,30 +434,28 @@ if (SpeechRecognition) {
 
         }
 
-        transcript.textContent = text;
+        transcript.textContent = text.trim();
 
     };
 
     recognition.onerror = (event) => {
-
-    console.error(
-        "Speech recognition error:",
-        event.error
-    );
-
-    transcript.textContent =
-        "❌ Speech recognition error: " + event.error;
-
-};
 
         console.error(
             "Speech recognition error:",
             event.error
         );
 
+        transcript.textContent =
+            "❌ Speech recognition error: " + event.error;
+
     };
 
-        }
+} else {
+
+    transcript.textContent =
+        "⚠️ Speech recognition is not supported in this browser.";
+
+}
         async function startRecording() {
 
             try {
